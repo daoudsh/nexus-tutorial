@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+
+	<!-- default username and password when you run Nexus in docker -->
+	<servers>
+		<server>
+			<id>nexus-snapshots</id>
+			<username>admin</username>
+			<password>admin123</password>
+		</server>
+		<server>
+			<id>nexus-releases</id>
+			<username>admin</username>
+			<password>admin123</password>
+		</server>
+	</servers>
+
+	<profiles>
+		<profile>
+			<id>nexus-local</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<mirror_cental_id>central</mirror_cental_id>
+				<mirror_cental_url>http://192.168.80.132:8081/repository/maven-public/</mirror_cental_url>
+				<nexus_spanshot_url>http://192.168.80.132:8081/repository/maven-snapshots/</nexus_spanshot_url>
+				<nexus_release_url>http://192.168.80.132:8081/repository/maven-snapshots/</nexus_release_url>
+			</properties>
+		</profile>
+	</profiles>
+
+	<activeProfiles>
+		<activeProfile>nexus-local</activeProfile>
+	</activeProfiles>
+	<mirrors>
+		<mirror>
+			<id>central</id>
+			<name>central</name>
+			<url>http://192.168.80.132:8081/repository/maven-public/</url>
+			<mirrorOf>*</mirrorOf>
+		</mirror>
+	</mirrors>
+</settings>
+
