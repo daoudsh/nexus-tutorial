@@ -1,5 +1,6 @@
 
 
+
 # Nexus Repository Manager
 
 Nexus is your "own" repository that you can manage. It play a role of "proxy" allowing you to collect and manage your dependencies and artifacts and keep them inside the organisation.
@@ -47,33 +48,53 @@ Create new file in ${user.home}/.m2/settings.xml
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.1.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
 
-  <servers>
-    <server>
-      <id>nexus-snapshots</id>
-      <username>admin</username>
-      <password>admin123</password>
-    </server>
-    <server>
-      <id>nexus-releases</id>
-      <username>admin</username>
-      <password>admin123</password>
-    </server>
-  </servers>
+	<!-- default username and password when you run Nexus in docker -->
+	<servers>
+		<server>
+			<id>nexus-snapshots</id>
+			<username>admin</username>
+			<password>admin123</password>
+		</server>
+		<server>
+			<id>nexus-releases</id>
+			<username>admin</username>
+			<password>admin123</password>
+		</server>
+	</servers>
 
-  <mirrors>
-    <mirror>
-      <id>central</id>
-      <name>central</name>
-      <url>http://YOUR_SERVER:8081/repository/maven-group/</url>
-      <mirrorOf>*</mirrorOf>
-    </mirror>
-  </mirrors>
+	<profiles>
+		<profile>
+			<id>nexus-local</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<mirror_cental_id>central</mirror_cental_id>
+				<mirror_cental_url>http://YOUR_SERVER:8081/repository/maven-public/</mirror_cental_url>
+				<nexus_spanshot_url>http://YOUR_SERVER:8081/repository/maven-snapshots/</nexus_spanshot_url>
+				<nexus_release_url>http://YOUR_SERVER:8081/repository/maven-snapshots/</nexus_release_url>
+			</properties>
+		</profile>
+	</profiles>
 
+	<activeProfiles>
+		<activeProfile>nexus-local</activeProfile>
+	</activeProfiles>
+	<mirrors>
+		<mirror>
+			<id>central</id>
+			<name>central</name>
+			<url>http://YOUR_SERVER:8081/repository/maven-public/</url>
+			<mirrorOf>*</mirrorOf>
+		</mirror>
+	</mirrors>
 </settings>
 ```
+
+Using the profiles, you can easily change your project deployment to another server
 
 ### 2- Project Configuration  
 
@@ -81,8 +102,8 @@ Create new file in ${user.home}/.m2/settings.xml
 
 
   ####  a- Configuration to download dependencies
-  In pom.xml add the flowing lines:
-
+  ~~In pom.xml add the flowing lines:~~
+***This section is not needed since we already configure it is settings.xml in section 'mirrors'***
 ```
   <repositories>
     <repository>
@@ -101,15 +122,15 @@ and then you can use
   <distributionManagement>
     <snapshotRepository>
       <id>nexus-snapshots</id>
-      <url>http://YOUR_SERVER:8081/repository/maven-snapshots/</url>
+      <url>${nexus_spanshot_url}</url>
     </snapshotRepository>
     <repository>
       <id>nexus-releases</id>
-      <url>http://YOUR_SERVER:8081/repository/maven-releases/</url>
+     <url>${nexus_release_url}</url>
     </repository>
   </distributionManagement>
 ```
-To deploy use
+Maven will get the variable values from Settings.xml. To deploy use
 
     $ mvn deploy
 
@@ -136,9 +157,7 @@ https://stackoverflow.com/questions/30769636/how-does-maven-3-password-encryptio
 
 	```
 	<settingsSecurity>
-		
 		<master>{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}</master>
-
 	</settingsSecurity>
 	```
 		
