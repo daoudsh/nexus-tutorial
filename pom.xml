@@ -5,7 +5,7 @@
 
 	<groupId>de.shiyar.spring</groupId>
 	<artifactId>nexus</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>nexus</name>
@@ -18,21 +18,14 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<repositories>
-		<repository>
-			<id>maven-group</id>
-			<url>http://192.168.80.132:8081/repository/maven-group/</url>
-		</repository>
-	</repositories>
-
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
-			<url>http://192.168.80.132:8081/repository/maven-snapshots/</url>
+			<url>${nexus_spanshot_url}</url>
 		</snapshotRepository>
 		<repository>
 			<id>nexus-releases</id>
-			<url>http://192.168.80.132:8081/repository/maven-releases/</url>
+			<url>${nexus_release_url}</url>
 		</repository>
 	</distributionManagement>
 	<properties>
