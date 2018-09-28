@@ -27,7 +27,7 @@
 				<mirror_cental_id>central</mirror_cental_id>
 				<mirror_cental_url>http://192.168.80.132:8081/repository/maven-public/</mirror_cental_url>
 				<nexus_spanshot_url>http://192.168.80.132:8081/repository/maven-snapshots/</nexus_spanshot_url>
-				<nexus_release_url>http://192.168.80.132:8081/repository/maven-snapshots/</nexus_release_url>
+				<nexus_release_url>http://192.168.80.132:8081/repository/maven-releases/</nexus_release_url>
 			</properties>
 		</profile>
 	</profiles>
