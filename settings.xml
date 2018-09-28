@@ -15,6 +15,11 @@
 			<username>admin</username>
 			<password>admin123</password>
 		</server>
+		<server>
+			<id>central</id>
+			<username>admin</username>
+			<password>admin123</password>
+		</server>
 	</servers>
 
 	<profiles>
